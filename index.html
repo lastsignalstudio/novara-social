@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0b1a">
+<meta name="description" content="NOVARA — The New Era of Connection. Share life, discover the world.">
+<title>NOVARA — The New Era of Connection</title>
+<style>
+:root{--bg:#0b0b1a;--panel:#121226;--panel2:#191932;--line:#292947;--purple:#8b5cff;--cyan:#00e5ff;--pink:#ff3d9a;--white:#f5f7ff;--muted:#a4a5c2;--grad:linear-gradient(110deg,#8b5cff 0%,#c24dff 48%,#00cfff 100%)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 15% -10%,#26164c 0,transparent 35%),var(--bg);color:var(--white);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+button,input,textarea{font:inherit}button{cursor:pointer}.app{max-width:1240px;margin:auto;min-height:100vh;display:grid;grid-template-columns:230px minmax(0,650px) 300px;gap:24px;padding:0 22px}
+.sidebar{position:sticky;top:0;height:100vh;padding:28px 0 20px;display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.06);padding-right:18px}
+.brand{display:flex;align-items:center;gap:10px;margin:0 0 35px 8px}.mark{width:42px;height:42px;border-radius:14px;background:var(--grad);display:grid;place-items:center;box-shadow:0 0 28px #8b5cff66}.mark svg{width:29px;height:29px}.brandname{font-size:22px;font-weight:850;letter-spacing:2px}.brandtag{font-size:9px;color:var(--muted);letter-spacing:1.3px;margin-top:2px}
+.nav{display:grid;gap:8px}.nav button{border:0;background:transparent;color:#b9bad2;text-align:left;padding:13px 14px;border-radius:13px;display:flex;align-items:center;gap:14px;font-size:15px}.nav button.active,.nav button:hover{background:#8b5cff20;color:white}.nav .ico{width:22px;text-align:center;font-size:19px}.nav button.active .ico{filter:drop-shadow(0 0 7px #a879ff)}
+.primary{border:0;color:white;background:var(--grad);border-radius:13px;padding:13px 18px;font-weight:750;box-shadow:0 7px 25px #8b5cff35}.sidebar .primary{margin:24px 0 0}.side-bottom{margin-top:auto;color:var(--muted);font-size:11px;line-height:1.6;padding:12px}
+main{padding:26px 0 90px;min-width:0}.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}.mobile-brand{display:none}.page-title{font-size:23px;font-weight:800}.top-actions{display:flex;gap:10px}.iconbtn{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:var(--panel);color:white;font-size:17px}
+.stories{display:flex;gap:14px;overflow:auto;padding:4px 0 18px;scrollbar-width:none}.stories::-webkit-scrollbar{display:none}.story{flex:0 0 66px;text-align:center;font-size:11px;color:#c9c9df}.story-ring{width:60px;height:60px;border-radius:50%;padding:2px;background:var(--grad);margin:0 auto 6px}.story-ring span{height:100%;width:100%;border-radius:50%;display:grid;place-items:center;background:#24213c;font-size:22px;border:3px solid var(--bg)}
+.composer{background:linear-gradient(135deg,#191631,#111126);border:1px solid #39305f;border-radius:18px;padding:16px;margin-bottom:22px}.composer-top{display:flex;gap:12px;align-items:center}.avatar{width:42px;height:42px;flex:0 0 42px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#8b5cff,#00cfff);font-weight:800}.fakeinput{flex:1;text-align:left;background:#ffffff09;border:1px solid #ffffff12;color:#a9a9c4;border-radius:22px;padding:12px 16px}.composer-actions{display:flex;gap:16px;margin:13px 0 0 54px;color:#c6c6dc;font-size:12px}.composer-actions button{border:0;background:none;color:inherit;padding:4px}
+.filters{display:flex;gap:8px;margin-bottom:15px;overflow:auto}.filter{white-space:nowrap;border:1px solid var(--line);border-radius:20px;background:transparent;color:#bcbcd2;padding:8px 14px;font-size:12px}.filter.active{background:#8b5cff24;border-color:#8b5cff;color:white}
+.post{background:var(--panel);border:1px solid #262642;border-radius:18px;margin-bottom:16px;overflow:hidden}.post-head{display:flex;align-items:center;gap:10px;padding:15px 16px}.post-user{font-size:13px;font-weight:750}.verified{color:var(--cyan)}.post-meta{font-size:11px;color:var(--muted);margin-top:3px}.more{margin-left:auto;background:none;border:0;color:#aaa;font-size:21px}.post-text{font-size:14px;line-height:1.55;padding:0 16px 13px;color:#e7e7f5}.post-art{min-height:190px;display:grid;place-items:center;text-align:center;padding:30px;background:radial-gradient(circle at 75% 20%,#6c3dca99,transparent 32%),linear-gradient(135deg,#171c48,#321d58 55%,#092c43);font-size:26px;font-weight:800}.post-art small{display:block;font-size:12px;color:#d6d7f7;font-weight:500;margin-top:8px}.post-image{width:100%;max-height:440px;object-fit:cover;display:block}.post-actions{display:flex;align-items:center;gap:17px;padding:12px 16px;color:#c4c4da}.action{background:none;border:0;color:inherit;padding:0;font-size:13px;display:flex;align-items:center;gap:6px}.action.liked{color:#ff5da9}.post-count{margin-left:auto;font-size:11px;color:var(--muted)}
+.rightbar{padding:30px 0}.search{width:100%;border:1px solid var(--line);border-radius:22px;background:var(--panel);padding:12px 16px;color:white;outline:none}.widget{background:var(--panel);border:1px solid #262642;border-radius:17px;padding:16px;margin-top:18px}.widget h3{font-size:14px;margin:0 0 14px}.pulse{background:linear-gradient(135deg,#321b62,#102e4b);border-radius:13px;padding:15px;margin-bottom:10px}.pulse .eyebrow{font-size:10px;color:#c6b3ff;letter-spacing:1px}.pulse strong{display:block;font-size:16px;margin:8px 0}.pulse p{font-size:11px;color:#d0d0e7;margin:0}.trend{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #282842;font-size:12px}.trend:last-child{border:0}.trend span:last-child{color:var(--muted)}
+.footer-note{font-size:10px;color:#777894;line-height:1.6;margin:18px 4px}
+.overlay{position:fixed;inset:0;background:#050510c9;display:none;align-items:center;justify-content:center;padding:16px;z-index:10}.overlay.show{display:flex}.modal{width:min(520px,100%);background:#15152b;border:1px solid #39345c;border-radius:20px;padding:20px;box-shadow:0 25px 90px #0009}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.modal h2{font-size:19px;margin:0}.close{border:0;background:none;color:white;font-size:24px}.field{width:100%;background:#0d0d1d;border:1px solid #343451;border-radius:12px;color:white;padding:13px;margin:7px 0 13px;outline:none}.field:focus{border-color:var(--purple)}textarea.field{min-height:120px;resize:vertical}.modal-actions{display:flex;justify-content:flex-end;gap:10px}.secondary{border:1px solid var(--line);border-radius:12px;background:transparent;color:#ddd;padding:11px 15px}
+.empty{padding:45px 20px;text-align:center;color:var(--muted);background:var(--panel);border:1px dashed var(--line);border-radius:16px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#242044;border:1px solid #7154ba;padding:11px 16px;border-radius:12px;color:white;font-size:13px;display:none;z-index:20}
+@media(max-width:980px){.app{grid-template-columns:190px minmax(0,1fr);gap:18px}.rightbar{display:none}}
+@media(max-width:650px){.app{display:block;padding:0 14px}.sidebar{display:none}main{padding:18px 0 85px}.mobile-brand{display:flex;align-items:center;gap:8px;font-weight:850;letter-spacing:1.5px}.mobile-brand .mark{width:34px;height:34px;border-radius:11px}.page-title{font-size:20px}.topbar{margin-bottom:18px}.composer{padding:13px}.composer-actions{margin-left:0;justify-content:space-around}.post{border-radius:15px}.rightbar{display:none}.bottomnav{position:fixed;z-index:5;bottom:0;left:0;right:0;padding:9px 12px calc(9px + env(safe-area-inset-bottom));display:flex;justify-content:space-around;background:#101022f2;border-top:1px solid #292943;backdrop-filter:blur(18px)}.bottomnav button{border:0;background:none;color:#a9a9c4;font-size:20px;padding:4px 10px}.bottomnav button.active{color:#b58bff;text-shadow:0 0 12px #8b5cff}.stories{gap:10px}.story{flex-basis:60px}.story-ring{width:54px;height:54px}}
+@media(min-width:651px){.bottomnav{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="mark"><svg viewBox="0 0 40 40" fill="none"><path d="M7 29 17 9c1-2 4-2 5 0l4 8 7-11" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="m7 29 11-9 5 9 10-23" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/></svg></div><div><div class="brandname">NOVARA</div><div class="brandtag">THE NEW ERA OF CONNECTION</div></div></div>
+  <nav class="nav">
+    <button class="active" data-page="home"><span class="ico">⌂</span> Trang chủ</button>
+    <button data-page="world"><span class="ico">◎</span> World Pulse</button>
+    <button data-page="explore"><span class="ico">⌕</span> Khám phá</button>
+    <button data-page="saved"><span class="ico">♡</span> Đã lưu</button>
+    <button data-page="profile"><span class="ico">◉</span> Hồ sơ</button>
+  </nav>
+  <button class="primary" id="openCreate">＋　Tạo bài viết</button>
+  <div class="side-bottom">One World. One Moment. Infinite People.<br>© NOVARA — Prototype V0.1</div>
+</aside>
+<main>
+  <div class="topbar">
+    <div class="mobile-brand"><div class="mark"><svg viewBox="0 0 40 40" fill="none"><path d="M7 29 17 9c1-2 4-2 5 0l4 8 7-11" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="m7 29 11-9 5 9 10-23" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/></svg></div>NOVARA</div>
+    <div class="page-title" id="pageTitle">Bảng tin</div>
+    <div class="top-actions"><button class="iconbtn" aria-label="Thông báo" onclick="toast('Thông báo sẽ được mở ở phiên bản tiếp theo.')">♧</button><button class="iconbtn" aria-label="Tin nhắn" onclick="toast('Tin nhắn sẽ có trong bản cập nhật tiếp theo.')">✉</button></div>
+  </div>
+  <div class="stories" id="stories">
+    <div class="story"><div class="story-ring"><span>＋</span></div>Tin của bạn</div>
+    <div class="story"><div class="story-ring"><span>🌏</span></div>World</div>
+    <div class="story"><div class="story-ring"><span>🎧</span></div>mina.v</div>
+    <div class="story"><div class="story-ring"><span>🏄</span></div>alex.r</div>
+    <div class="story"><div class="story-ring"><span>🎨</span></div>yuki.art</div>
+    <div class="story"><div class="story-ring"><span>📸</span></div>linh.ng</div>
+  </div>
+  <section class="composer">
+    <div class="composer-top"><div class="avatar">N</div><button class="fakeinput" id="fakeInput">Bạn đang nghĩ gì? Chia sẻ khoảnh khắc của bạn...</button></div>
+    <div class="composer-actions"><button id="photoCreate">▧　Ảnh / Video</button><button id="pulseCreate">◎　World Pulse</button><button id="challengeCreate">✧　Thử thách</button></div>
+  </section>
+  <div class="filters"><button class="filter active" data-filter="all">Dành cho bạn</button><button class="filter" data-filter="following">Đang theo dõi</button><button class="filter" data-filter="world">Toàn cầu</button></div>
+  <section id="feed"></section>
+</main>
+<aside class="rightbar">
+  <input class="search" id="search" placeholder="⌕  Tìm kiếm NOVARA">
+  <div class="widget"><h3>🌍 World Pulse hôm nay</h3><div class="pulse"><div class="eyebrow">THỬ THÁCH TOÀN CẦU</div><strong>Một khoảnh khắc khiến bạn mỉm cười</strong><p>Chia sẻ điều tích cực từ nơi bạn đang sống.</p></div><button class="primary" style="width:100%" onclick="switchPage('world')">Khám phá World Pulse →</button></div>
+  <div class="widget"><h3>🔥 Đang được quan tâm</h3><div class="trend"><span>#OneWorldOneMoment</span><span>12,8K</span></div><div class="trend"><span>#TravelTheWorld</span><span>8,4K</span></div><div class="trend"><span>#CreativeLife</span><span>6,2K</span></div><div class="trend"><span>#NOVARAChallenge</span><span>4,9K</span></div></div>
+  <div class="footer-note">Giới thiệu · Quyền riêng tư · Điều khoản<br>Đây là bản prototype V0.1. Nội dung mẫu chỉ để minh họa.</div>
+</aside>
+</div>
+<nav class="bottomnav">
+  <button class="active" data-page="home">⌂</button><button data-page="world">◎</button><button id="mobileCreate" style="color:#b58bff;font-size:25px">＋</button><button data-page="explore">⌕</button><button data-page="profile">◉</button>
+</nav>
+<div class="overlay" id="createModal">
+  <div class="modal">
+    <div class="modal-head"><h2>Tạo khoảnh khắc NOVARA</h2><button class="close" id="closeModal">×</button></div>
+    <label for="postText" style="font-size:12px;color:#bdbdd4">Bạn muốn chia sẻ điều gì?</label>
+    <textarea class="field" id="postText" placeholder="Kể câu chuyện của bạn với thế giới..."></textarea>
+    <label for="postImage" style="font-size:12px;color:#bdbdd4">Thêm hình ảnh (không bắt buộc)</label>
+    <input class="field" id="postImage" type="file" accept="image/*">
+    <div class="modal-actions"><button class="secondary" id="cancelPost">Hủy</button><button class="primary" id="publishPost">Đăng bài</button></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const samplePosts=[
+{id:1,user:"mina.v",name:"Mina Vũ",verified:true,time:"12 phút trước",text:"Một buổi chiều thật đẹp ở Tokyo ✨ Đôi khi hạnh phúc chỉ là dừng lại một chút và ngắm nhìn thế giới. #Travel #NOVARA",art:"TOKYO, JAPAN",sub:"A little moment. A big feeling.",likes:12800,comments:248,following:true,world:true,liked:false,saved:false},
+{id:2,user:"novara.world",name:"NOVARA World",verified:true,time:"35 phút trước",text:"🌍 WORLD PULSE: Hôm nay, hãy chia sẻ một điều nhỏ bé khiến bạn mỉm cười. Cùng kết nối những khoảnh khắc tích cực từ khắp nơi trên thế giới! #OneWorldOneMoment",art:"ONE WORLD · ONE MOMENT",sub:"Your moment can inspire the world.",likes:9400,comments:512,following:false,world:true,liked:false,saved:false},
+{id:3,user:"yuki.art",name:"Yuki Tanaka",verified:false,time:"1 giờ trước",text:"Màu sắc hôm nay của mình. Sáng tạo không có biên giới 🎨 #CreativeLife",art:"CREATE WITHOUT LIMITS",sub:"Share your vision with the world.",likes:3200,comments:86,following:true,world:true,liked:false,saved:false}
+];
+let posts=JSON.parse(localStorage.getItem("novara_posts_v01")||"null")||samplePosts;
+let currentFilter="all",currentPage="home";
+const feed=document.getElementById("feed");
+function save(){localStorage.setItem("novara_posts_v01",JSON.stringify(posts))}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.style.display="none",2400)}
+function render(){
+ let list=posts.filter(p=>currentPage==="saved"?p.saved:currentPage==="profile"?p.user==="you":currentPage==="world"?p.world:currentFilter==="following"?p.following:currentFilter==="world"?p.world:true);
+ const q=(document.getElementById("search").value||"").toLowerCase();
+ if(q)list=list.filter(p=>(p.text+" "+p.user+" "+p.name).toLowerCase().includes(q));
+ if(!list.length){feed.innerHTML='<div class="empty">Chưa có bài viết ở đây.<br><br>Hãy là người đầu tiên chia sẻ khoảnh khắc!</div>';return}
+ feed.innerHTML=list.map(p=>`<article class="post"><div class="post-head"><div class="avatar">${p.user==="you"?"N":p.name.slice(0,1).toUpperCase()}</div><div><div class="post-user">${esc(p.name)} ${p.verified?'<span class="verified">✓</span>':''}</div><div class="post-meta">@${esc(p.user)} · ${esc(p.time)}</div></div><button class="more" aria-label="Thêm">···</button></div><div class="post-text">${esc(p.text)}</div>${p.image?`<img class="post-image" src="${p.image}" alt="Ảnh bài đăng">`:`<div class="post-art">${esc(p.art||"NOVARA")}<small>${esc(p.sub||"The New Era of Connection")}</small></div>`}<div class="post-actions"><button class="action ${p.liked?"liked":""}" onclick="likePost(${p.id})">${p.liked?"♥":"♡"}　${format(p.likes)}</button><button class="action" onclick="toast('Bình luận sẽ được kết nối trong phiên bản backend.')">◯　${format(p.comments)}</button><button class="action" onclick="sharePost(${p.id})">↗　Chia sẻ</button><button class="action post-count" onclick="savePost(${p.id})">${p.saved?"🔖":"♧"}　${p.saved?"Đã lưu":"Lưu"}</button></div></article>`).join("");
+}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function format(n){return n>=1000?(n/1000).toFixed(n>=10000?0:1).replace(".0","")+"K":n}
+function likePost(id){const p=posts.find(x=>x.id===id);if(!p)return;p.liked=!p.liked;p.likes+=p.liked?1:-1;save();render()}
+function savePost(id){const p=posts.find(x=>x.id===id);p.saved=!p.saved;save();render();toast(p.saved?"Đã lưu bài viết":"Đã bỏ lưu")}
+function sharePost(id){const p=posts.find(x=>x.id===id);if(navigator.share){navigator.share({title:"NOVARA",text:p.text,url:location.href}).catch(()=>{})}else{navigator.clipboard?.writeText(location.href);toast("Đã sao chép liên kết NOVARA")}}
+function openModal(){document.getElementById("createModal").classList.add("show")}
+function closeModal(){document.getElementById("createModal").classList.remove("show");document.getElementById("postText").value="";document.getElementById("postImage").value=""}
+async function publish(){const text=document.getElementById("postText").value.trim();const file=document.getElementById("postImage").files[0];if(!text&&!file){toast("Hãy nhập nội dung hoặc chọn ảnh.");return}let image="";if(file){if(file.size>2*1024*1024){toast("Ảnh demo tối đa 2MB.");return}image=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)})}posts.unshift({id:Date.now(),user:"you",name:"Bạn",verified:false,time:"Vừa xong",text:text||"Một khoảnh khắc mới trên NOVARA ✨",image,likes:0,comments:0,following:true,world:true,liked:false,saved:false});save();closeModal();currentPage="home";currentFilter="all";updateNav();render();toast("Đã đăng bài trên thiết bị này!")}
+function switchPage(page){currentPage=page;currentFilter="all";document.getElementById("pageTitle").textContent=({home:"Bảng tin",world:"World Pulse",explore:"Khám phá",saved:"Bài viết đã lưu",profile:"Hồ sơ của bạn"})[page]||"NOVARA";updateNav();render()}
+function updateNav(){document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===currentPage))}
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>switchPage(b.dataset.page)));
+document.querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click",()=>{currentFilter=b.dataset.filter;document.querySelectorAll("[data-filter]").forEach(x=>x.classList.toggle("active",x===b));currentPage="home";render()}));
+document.getElementById("openCreate").onclick=openModal;document.getElementById("fakeInput").onclick=openModal;document.getElementById("mobileCreate").onclick=openModal;document.getElementById("photoCreate").onclick=openModal;document.getElementById("pulseCreate").onclick=()=>{document.getElementById("postText").value="🌍 WORLD PULSE: ";openModal()};document.getElementById("challengeCreate").onclick=()=>{document.getElementById("postText").value="✧ NOVARA CHALLENGE: ";openModal()};
+document.getElementById("closeModal").onclick=closeModal;document.getElementById("cancelPost").onclick=closeModal;document.getElementById("publishPost").onclick=publish;document.getElementById("search").addEventListener("input",render);
+render();
+</script>
+</body>
+</html>
