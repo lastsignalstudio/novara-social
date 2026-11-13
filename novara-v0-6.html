@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0b1a">
+<meta name="description" content="NOVARA — The New Era of Connection">
+<title>NOVARA v0.6 — Hybrid Future</title>
+<style>
+:root{--bg:#0b0b1a;--panel:#14142a;--panel2:#1c1b38;--line:#8b5cff45;--purple:#8b5cff;--cyan:#00e5ff;--pink:#ff3d9a;--white:#f7f5ff;--muted:#aaa8c5;--grad:linear-gradient(110deg,#8b5cff,#bd4dff 52%,#00d5ff)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 10% 0%,#34205c 0,transparent 35%),radial-gradient(ellipse at 100% 25%,#073b4a 0,transparent 30%),var(--bg);color:var(--white);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}button,input,textarea{font:inherit}button{cursor:pointer;color:inherit}.shell{max-width:1240px;margin:auto;display:grid;grid-template-columns:225px minmax(0,680px) 270px;gap:22px;padding:0 20px}.side{height:100vh;position:sticky;top:0;padding:26px 14px 18px 0;border-right:1px solid var(--line);display:flex;flex-direction:column}.brand{display:flex;align-items:center;gap:10px;margin:0 0 32px}.logo{width:42px;height:42px;border-radius:14px;background:var(--grad);display:grid;place-items:center;font-size:25px;font-weight:900;box-shadow:0 0 28px #8b5cff77}.brand b{font-size:22px;letter-spacing:2px;background:linear-gradient(90deg,#fff,#9ceeff);color:transparent;background-clip:text}.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:1px}.nav{display:grid;gap:7px}.nav button{border:1px solid transparent;background:transparent;color:#c4c1dc;text-align:left;padding:13px;border-radius:12px}.nav button.active,.nav button:hover{background:#8b5cff24;border-color:var(--line);color:white}.nav span{display:inline-block;width:28px}.primary{border:0;border-radius:12px;background:var(--grad);padding:12px 17px;font-weight:750;box-shadow:0 8px 25px #8b5cff44}.secondary{border:1px solid var(--line);border-radius:12px;background:#ffffff08;padding:11px 15px}.side .primary{margin:22px 0}.side small{margin-top:auto;color:#77758f;line-height:1.7}main{padding:16px 0 90px;min-width:0}.top{position:sticky;top:0;z-index:4;display:flex;align-items:center;justify-content:space-between;padding:12px 0;background:#0b0b1aeF;backdrop-filter:blur(18px);border-bottom:1px solid #8b5cff22;margin-bottom:18px}.top strong{font-size:21px}.top button{border:1px solid var(--line);background:#17162d;border-radius:50%;width:40px;height:40px}.hero{position:relative;overflow:hidden;padding:25px;border:1px solid #00e5ff45;border-radius:22px;background:radial-gradient(circle at 85% 20%,#00e5ff30,transparent 27%),radial-gradient(circle at 12% 100%,#8b5cff55,transparent 43%),linear-gradient(125deg,#171337,#101e38 70%,#101025);box-shadow:0 16px 50px #0005;margin-bottom:18px}.kicker{font-size:10px;letter-spacing:2px;color:#83eaff;font-weight:800}.hero h1{font-size:clamp(27px,5vw,40px);line-height:1.08;margin:13px 0}.gradient{background:linear-gradient(90deg,#b79aff,#69efff);color:transparent;background-clip:text}.hero p,.muted{color:#c2c1dc;font-size:13px;line-height:1.65;max-width:480px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}.section{font-size:11px;letter-spacing:1.5px;color:#a99bdf;font-weight:800;margin:20px 0 10px}.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}.tile{min-height:105px;text-align:left;padding:14px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(145deg,#211c43,#11182c);transition:.2s}.tile:hover{border-color:var(--cyan);transform:translateY(-2px)}.tile i{font-style:normal;font-size:22px;display:block;margin-bottom:8px}.tile b{font-size:13px}.tile small{display:block;color:#aaaac8;font-size:11px;margin-top:5px;line-height:1.4}.composer,.card,.post{border:1px solid var(--line);border-radius:17px;background:linear-gradient(145deg,#1b1937ed,#101025ed);padding:16px;margin-bottom:14px}.composer textarea,.field{width:100%;background:#0d0d20;border:1px solid var(--line);border-radius:12px;color:white;padding:12px;outline:none}.composer textarea{min-height:76px;resize:vertical}.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.row .primary{margin-left:auto}.posthead{display:flex;align-items:center;gap:10px;margin-bottom:12px}.avatar{width:39px;height:39px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-weight:800}.meta{color:var(--muted);font-size:11px;margin-top:3px}.posttext{white-space:pre-wrap;line-height:1.6;font-size:14px}.postactions{display:flex;gap:15px;margin-top:14px;color:#c7c5dc}.postactions button{background:none;border:0;color:inherit;padding:0}.right{padding:25px 0}.widget{border:1px solid var(--line);border-radius:16px;background:#14142a;padding:15px;margin-bottom:14px}.widget h3{font-size:14px;margin:0 0 12px}.trend{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #ffffff17;font-size:12px}.trend:last-child{border:0}.bottom{display:none}.screen{display:none}.screen.active{display:block}.mission{padding:13px 0;border-bottom:1px solid #ffffff18}.mission:last-child{border:0}.mission p{color:#bbb9d4;font-size:13px;line-height:1.5}.output{display:none;white-space:pre-wrap;background:#0b2430;border:1px solid #00e5ff55;border-radius:12px;padding:13px;margin-top:12px;font-size:13px;line-height:1.6}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:15px 0}.stat{text-align:center;background:#ffffff09;border:1px solid #ffffff18;border-radius:12px;padding:12px}.stat b{display:block;font-size:20px}.stat small{font-size:10px;color:var(--muted)}.toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);z-index:20;background:#28234b;border:1px solid var(--purple);border-radius:12px;padding:11px 15px;display:none;font-size:13px;max-width:90vw}.modal{position:fixed;inset:0;z-index:15;background:#050510dd;display:none;align-items:center;justify-content:center;padding:16px}.modal.show{display:flex}.dialog{width:min(480px,100%);background:#171630;border:1px solid var(--line);border-radius:18px;padding:20px}.dialog input,.dialog textarea{width:100%;margin:7px 0 13px;background:#0d0d20;border:1px solid var(--line);border-radius:11px;color:white;padding:12px}.dialog textarea{min-height:100px}.close{float:right;background:none;border:0;font-size:23px}
+@media(max-width:980px){.shell{grid-template-columns:190px minmax(0,1fr);gap:17px}.right{display:none}}
+@media(max-width:650px){.shell{display:block;padding:0 13px}.side,.right{display:none}main{padding:5px 0 90px}.top{margin:0 -13px 14px;padding:10px 13px}.top strong{font-size:18px}.hero{padding:19px}.tiles{gap:8px}.tile{padding:12px;min-height:100px}.bottom{position:fixed;display:flex;z-index:8;bottom:0;left:0;right:0;justify-content:space-around;padding:10px 8px calc(10px + env(safe-area-inset-bottom));background:#0b0b1aef;border-top:1px solid var(--line);backdrop-filter:blur(18px)}.bottom button{border:0;background:none;color:#aaa8c5;font-size:21px}.bottom button.active{color:#b99aff}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="side">
+ <div class="brand"><div class="logo">N</div><div><b>NOVARA</b><small>THE NEW ERA OF CONNECTION</small></div></div>
+ <nav class="nav">
+  <button class="active" data-screen="home"><span>⌂</span>Trang chủ</button>
+  <button data-screen="world"><span>◎</span>World</button>
+  <button data-screen="intelligence"><span>✧</span>Intelligence</button>
+  <button data-screen="missions"><span>⚡</span>Missions</button>
+  <button data-screen="identity"><span>◇</span>Identity</button>
+ </nav>
+ <button class="primary" style="margin-top:22px" onclick="openComposer()">＋ Tạo khoảnh khắc</button>
+ <small>One World. One Moment.<br>Infinite Possibilities.<br>© NOVARA v0.6</small>
+</aside>
+<main>
+ <div class="top"><strong id="pageTitle">NOVARA · Hybrid Future</strong><div class="row"><button onclick="openAuth()" aria-label="Tài khoản">◉</button><button onclick="toast('Thông báo sẽ được bổ sung ở bản tiếp theo.')">♧</button></div></div>
+
+ <section id="home" class="screen active">
+  <section class="hero">
+   <div class="kicker">NOVARA HYBRID FUTURE · V0.6</div>
+   <h1>Beyond Social.<br><span class="gradient">Into a Living World.</span></h1>
+   <p>Một không gian nơi con người khám phá thế giới, cùng sáng tạo và biến những ý tưởng thành trải nghiệm chung.</p>
+   <div class="actions"><button class="primary" onclick="showScreen('world')">Khám phá World →</button><button class="secondary" onclick="showScreen('missions')">Tham gia Mission</button></div>
+  </section>
+  <div class="section">YOUR FUTURE SPACE</div>
+  <section class="tiles">
+   <button class="tile" onclick="showScreen('world')"><i>🌐</i><b>NOVARA WORLD</b><small>Khám phá nhịp đập toàn cầu</small></button>
+   <button class="tile" onclick="showScreen('intelligence')"><i>✧</i><b>NOVARA INTELLIGENCE</b><small>Trợ lý phát triển ý tưởng</small></button>
+   <button class="tile" onclick="openComposer()"><i>◈</i><b>NOVARA CREATE</b><small>Đưa ý tưởng ra thế giới</small></button>
+   <button class="tile" onclick="showScreen('missions')"><i>⚡</i><b>NOVARA MISSIONS</b><small>Cùng cộng đồng tạo tác động</small></button>
+   <button class="tile" onclick="showScreen('identity')"><i>◇</i><b>NOVARA IDENTITY</b><small>Dấu ấn và hành trình của bạn</small></button>
+   <button class="tile" onclick="showScreen('world')"><i>⌁</i><b>NOVARA PULSE</b><small>Những điều đang chuyển động</small></button>
+  </section>
+  <div class="section">COMMUNITY MOMENTS</div>
+  <section class="composer"><div class="row"><div class="avatar" id="composerAvatar">N</div><b>Chia sẻ với thế giới</b></div><textarea id="postInput" placeholder="Bạn đang nghĩ gì? Hãy bắt đầu một khoảnh khắc..."></textarea><div class="row"><button class="secondary" onclick="toast('Tải ảnh sẽ được bổ sung sau khi cấu hình Storage.')">▧ Ảnh / Video</button><button class="primary" onclick="publishPost()">Đăng bài</button></div></section>
+  <div id="feed"></div>
+ </section>
+
+ <section id="world" class="screen">
+  <div class="hero"><div class="kicker">NOVARA WORLD · LIVE CONCEPT</div><h1>One planet.<br><span class="gradient">Infinite perspectives.</span></h1><p>Khám phá ý tưởng, câu chuyện và các hoạt động cộng đồng. Bản v0.6 hiện dùng dữ liệu chủ đề mẫu, chưa có bản đồ địa lý trực tiếp.</p></div>
+  <div class="card"><div class="kicker">WORLD PULSE</div><h2>Chủ đề đang mở</h2><div class="trend"><span>#OneWorldOneMoment</span><span>Global stories</span></div><div class="trend"><span>#CreativeLife</span><span>Open creation</span></div><div class="trend"><span>#FutureTogether</span><span>Shared ideas</span></div><div class="trend"><span>#MyWorldMyView</span><span>Local perspectives</span></div></div>
+ </section>
+
+ <section id="intelligence" class="screen">
+  <div class="card"><div class="kicker">NOVARA INTELLIGENCE · PREVIEW</div><h2>Ý tưởng của bạn bắt đầu từ đây.</h2><p class="muted">Trợ lý thử nghiệm giúp phát triển ý tưởng, viết nội dung và gợi ý cách kết nối. Đây là bộ gợi ý cục bộ, chưa gọi API AI bên ngoài.</p><textarea id="ideaInput" class="field" style="min-height:120px" placeholder="Ví dụ: nghĩ ra một thử thách tích cực cho cộng đồng toàn cầu..."></textarea><button class="primary" onclick="developIdea()">Phát triển ý tưởng ✧</button><div id="ideaOutput" class="output"></div></div>
+  <div class="card"><b>AI có trách nhiệm</b><p class="muted">Trợ lý hỗ trợ người dùng, không tự ý đăng bài, gửi tin nhắn hoặc quyết định thay người dùng.</p></div>
+ </section>
+
+ <section id="missions" class="screen">
+  <div class="hero"><div class="kicker">NOVARA MISSIONS</div><h1>Make something<br><span class="gradient">matter together.</span></h1><p>Mỗi Mission là lời mời cùng sáng tạo, khám phá hoặc lan tỏa điều tích cực.</p></div>
+  <div class="card">
+   <div class="mission"><b>🌱 One Small Good Thing</b><p>Chia sẻ một hành động nhỏ giúp ngày hôm nay tốt đẹp hơn.</p><button class="secondary" onclick="joinMission('One Small Good Thing')">Tham gia</button></div>
+   <div class="mission"><b>🌏 My World, My View</b><p>Giới thiệu một góc nhìn độc đáo về nơi bạn đang sống.</p><button class="secondary" onclick="joinMission('My World, My View')">Tham gia</button></div>
+   <div class="mission"><b>💡 Future Together</b><p>Cùng đề xuất một ý tưởng cho thế giới tương lai.</p><button class="secondary" onclick="joinMission('Future Together')">Tham gia</button></div>
+  </div>
+ </section>
+
+ <section id="identity" class="screen">
+  <div class="card"><div class="kicker">NOVARA IDENTITY</div><div class="logo" id="identityAvatar" style="width:70px;height:70px;font-size:34px;margin:15px 0">N</div><h2 id="identityName">NOVARA Explorer</h2><p id="identityEmail" class="muted">Đăng nhập để đồng bộ danh tính và hoạt động của bạn.</p><div class="stats"><div class="stat"><b id="postCount">0</b><small>Bài viết</small></div><div class="stat"><b>0</b><small>Mission</small></div><div class="stat"><b>∞</b><small>Possibilities</small></div></div><button class="primary" onclick="openAuth()">Đăng nhập / Tài khoản</button></div>
+  <div class="card"><b>Your digital identity</b><p class="muted">Các phiên bản tiếp theo sẽ mở rộng hồ sơ sáng tạo, thành tựu cộng đồng và dự án bạn đóng góp.</p></div>
+ </section>
+</main>
+<aside class="right">
+ <div class="widget"><h3>🌍 World Pulse</h3><p class="muted">Một khoảnh khắc nhỏ có thể truyền cảm hứng cho cả thế giới.</p><button class="primary" style="width:100%" onclick="showScreen('world')">Khám phá →</button></div>
+ <div class="widget"><h3>✧ Future themes</h3><div class="trend"><span>#OneWorldOneMoment</span><span>Open</span></div><div class="trend"><span>#TravelTheWorld</span><span>Open</span></div><div class="trend"><span>#CreativeLife</span><span>Open</span></div><div class="trend"><span>#FutureTogether</span><span>Open</span></div></div>
+ <div class="widget"><h3>Build with people</h3><p class="muted">NOVARA khuyến khích sáng tạo, hợp tác và quyền kiểm soát dữ liệu của người dùng.</p></div>
+</aside>
+</div>
+<nav class="bottom"><button class="active" data-screen="home">⌂</button><button data-screen="world">◎</button><button onclick="openComposer()" style="color:#b99aff;font-size:26px">＋</button><button data-screen="intelligence">✧</button><button data-screen="identity">◇</button></nav>
+
+<div class="modal" id="authModal"><div class="dialog"><button class="close" onclick="closeModal('authModal')">×</button><h2 id="authTitle">Đăng nhập NOVARA</h2><p class="muted">Kết nối tài khoản NOVARA của bạn.</p><input id="authEmail" type="email" placeholder="Email"><input id="authPassword" type="password" placeholder="Mật khẩu"><input id="authName" placeholder="Tên hiển thị (khi đăng ký)" style="display:none"><div class="row"><button class="secondary" id="authToggle" onclick="toggleAuth()">Tạo tài khoản</button><button class="primary" style="margin-left:auto" onclick="submitAuth()">Tiếp tục</button></div></div></div>
+<div class="toast" id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL="https://yrejgxiwlgoajngxrgts.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_DKBzR7Lx2ztVRA2T352WJg_j5xW6e61";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+let currentUser=null,authMode="login",posts=[];
+const $=id=>document.getElementById(id);
+function toast(s){const t=$("toast");t.textContent=s;t.style.display="block";clearTimeout(window._toast);window._toast=setTimeout(()=>t.style.display="none",2600)}
+function showScreen(id){document.querySelectorAll(".screen").forEach(x=>x.classList.toggle("active",x.id===id));document.querySelectorAll("[data-screen]").forEach(x=>x.classList.toggle("active",x.dataset.screen===id));$("pageTitle").textContent=({home:"NOVARA · Hybrid Future",world:"NOVARA World & Pulse",intelligence:"NOVARA Intelligence",missions:"NOVARA Missions",identity:"NOVARA Identity"})[id]||"NOVARA";window.scrollTo({top:0,behavior:"smooth"});if(id==="identity")updateIdentity()}
+document.querySelectorAll("[data-screen]").forEach(x=>x.addEventListener("click",()=>showScreen(x.dataset.screen)));
+function openComposer(){if(!currentUser){toast("Đăng nhập để đăng bài.");openAuth();return}$("postInput").focus();showScreen("home");$("postInput").scrollIntoView({behavior:"smooth",block:"center"})}
+function openAuth(){if(currentUser){toast("Bạn đã đăng nhập. Mở Identity để xem tài khoản.");showScreen("identity");return}$("authModal").classList.add("show")}
+function closeModal(id){$(id).classList.remove("show")}
+function toggleAuth(){authMode=authMode==="login"?"signup":"login";$("authTitle").textContent=authMode==="login"?"Đăng nhập NOVARA":"Tạo tài khoản NOVARA";$("authToggle").textContent=authMode==="login"?"Tạo tài khoản":"Đã có tài khoản? Đăng nhập";$("authName").style.display=authMode==="signup"?"block":"none"}
+async function submitAuth(){const email=$("authEmail").value.trim(),password=$("authPassword").value,name=$("authName").value.trim();if(!email||password.length<8)return toast("Nhập email và mật khẩu tối thiểu 8 ký tự.");try{const r=authMode==="signup"?await db.auth.signUp({email,password,options:{data:{display_name:name||email.split("@")[0]}}}):await db.auth.signInWithPassword({email,password});if(r.error)throw r.error;if(authMode==="signup"&&!r.data.session)toast("Hãy kiểm tra email để xác nhận tài khoản.");else{currentUser=r.data.user;closeModal("authModal");updateIdentity();toast("Đăng nhập thành công.")}}catch(e){toast(e.message||"Không thể đăng nhập.")}}
+async function loadFeed(){const {data,error}=await db.from("posts").select("id,user_id,content,created_at,profiles(username,display_name)").order("created_at",{ascending:false}).limit(30);if(error){console.warn(error);$("feed").innerHTML='<div class="card muted">Chưa tải được bảng tin trực tuyến. Kiểm tra cấu hình Supabase và quyền truy cập.</div>';return}posts=data||[];renderFeed()}
+function renderFeed(){$("feed").innerHTML=posts.map(p=>{const pr=Array.isArray(p.profiles)?p.profiles[0]:p.profiles;return `<article class="post"><div class="posthead"><div class="avatar">${escapeHtml((pr?.display_name||pr?.username||"N").slice(0,1).toUpperCase())}</div><div><b>${escapeHtml(pr?.display_name||pr?.username||"NOVARA Member")}</b><div class="meta">@${escapeHtml(pr?.username||"member")} · ${new Date(p.created_at).toLocaleString()}</div></div></div><div class="posttext">${escapeHtml(p.content||"")}</div></article>`}).join("")||'<div class="card muted">Chưa có bài viết trực tuyến. Hãy là người đầu tiên chia sẻ khoảnh khắc!</div>'}
+function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+async function publishPost(){if(!currentUser){openAuth();return}const content=$("postInput").value.trim();if(!content)return toast("Viết nội dung trước khi đăng.");const {error}=await db.from("posts").insert({user_id:currentUser.id,content});if(error)return toast("Không đăng được: "+error.message);$("postInput").value="";await loadFeed();toast("Đã đăng bài lên NOVARA.")}
+function updateIdentity(){const name=currentUser?.user_metadata?.display_name||currentUser?.email?.split("@")[0]||"NOVARA Explorer";$("identityName").textContent=name;$("identityEmail").textContent=currentUser?.email||"Đăng nhập để đồng bộ danh tính và hoạt động của bạn.";$("identityAvatar").textContent=name.slice(0,1).toUpperCase();$("composerAvatar").textContent=name.slice(0,1).toUpperCase();$("postCount").textContent=posts.filter(p=>currentUser&&p.user_id===currentUser.id).length}
+function developIdea(){const q=$("ideaInput").value.trim();if(!q)return toast("Hãy nhập ý tưởng trước.");$("ideaOutput").style.display="block";$("ideaOutput").textContent="HƯỚNG PHÁT TRIỂN\\n\\n1. Mục tiêu: "+q+"\\n\\n2. Trải nghiệm: biến ý tưởng thành hoạt động ngắn, dễ tham gia và dễ chia sẻ.\\n\\n3. Kết nối: mời cộng đồng đóng góp góc nhìn từ nhiều quốc gia.\\n\\n4. Bước tiếp theo: tạo bài đăng NOVARA hoặc khởi động một Mission.\\n\\nĐây là bộ gợi ý ngoại tuyến của v0.6, chưa phải AI tạo sinh trực tuyến."}
+function joinMission(name){if(!currentUser){toast("Đăng nhập để tham gia Mission.");openAuth();return}showScreen("home");$("postInput").value="⚡ Tôi tham gia NOVARA MISSION: "+name+"\\n\\nĐây là đóng góp của tôi cho cộng đồng!";$("postInput").scrollIntoView({behavior:"smooth",block:"center"})}
+db.auth.getSession().then(async({data})=>{currentUser=data.session?.user||null;updateIdentity();await loadFeed()});
+db.auth.onAuthStateChange((_e,s)=>{currentUser=s?.user||null;updateIdentity();loadFeed()});
+</script>
+</body>
+</html>
