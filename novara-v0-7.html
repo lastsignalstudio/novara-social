@@ -1,1 +1,368 @@
 
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0b1a">
+<title>NOVARA — The New Era of Connection</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#0b0b1a;--panel:#17152c;--line:#393064;--purple:#9b55ff;--cyan:#00dcff;--muted:#aaa8c5;--white:#f8f7ff}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 90% 15%,#073c49 0,transparent 35%),radial-gradient(circle at 0 30%,#321456 0,transparent 40%),var(--bg);color:var(--white);font-family:system-ui,-apple-system,sans-serif;min-height:100vh}
+button,input,textarea{font:inherit}
+button{cursor:pointer;color:inherit}
+header{position:sticky;top:0;z-index:5;background:#0b0b1aee;border-bottom:1px solid #332654;padding:17px max(18px,calc((100% - 1100px)/2));display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(15px)}
+.brand{font-size:23px;font-weight:850;letter-spacing:1px}
+.brand span{background:linear-gradient(90deg,#a35aff,#00dcff);background-clip:text;color:transparent}
+.header-actions{display:flex;gap:9px}
+.smallbtn{background:#1b1933;border:1px solid var(--line);border-radius:13px;padding:10px 14px}
+main{max-width:1100px;margin:auto;padding:25px 17px 110px}
+.hero{padding:30px 25px;border:1px solid #514080;border-radius:25px;background:linear-gradient(130deg,#21143d,#142c43);box-shadow:0 10px 50px #0004;margin-bottom:28px}
+.eyebrow{color:#69e8ff;font-size:12px;letter-spacing:4px;font-weight:bold}
+h1{font-size:clamp(30px,6vw,48px);line-height:1.12;margin:17px 0}
+.gradient{background:linear-gradient(90deg,#b78aff,#62eaff);background-clip:text;color:transparent}
+.hero p{color:#c5c2dc;line-height:1.8}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.primary{border:0;border-radius:14px;padding:14px 22px;font-weight:750;background:linear-gradient(100deg,#984cff,#c43bff,#00c9ff);color:white}
+.secondary{border:1px solid #514080;border-radius:14px;background:#17152c;padding:13px 20px}
+.section-title{font-size:13px;letter-spacing:3px;color:#bda0ff;font-weight:bold;margin:30px 0 15px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.tile{padding:19px;border:1px solid var(--line);border-radius:19px;background:#19162f}
+.tile .emoji{font-size:24px}
+.tile h3{font-size:15px;margin:13px 0 6px}
+.tile p{font-size:13px;color:var(--muted);margin:0}
+.composer,.post,.profile{border:1px solid var(--line);background:#17152ceF;border-radius:21px;padding:19px;margin-bottom:15px}
+.composer-top,.post-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.avatar{width:43px;height:43px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;font-weight:bold;font-size:20px;background:linear-gradient(130deg,#a34aff,#00dfff)}
+textarea,input{width:100%;background:#0d0c20;border:1px solid #393064;color:white;border-radius:13px;padding:14px;outline:none}
+textarea{min-height:100px;resize:vertical}
+textarea:focus,input:focus{border-color:#a45aff}
+.composer-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
+.muted{color:var(--muted);font-size:13px}
+.feed-filter{display:flex;gap:8px;margin:15px 0}
+.feed-filter button{border:1px solid var(--line);background:#17152c;border-radius:20px;padding:8px 15px}
+.post-head{justify-content:space-between}
+.author{display:flex;gap:10px;align-items:center}
+.author-name{font-weight:750}
+.post-time{font-size:12px;color:var(--muted)}
+.post-content{line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere}
+.post-media{width:100%;max-height:520px;object-fit:contain;border-radius:14px;margin-top:12px;background:#080817}
+.post-footer{border-top:1px solid #332b52;margin-top:14px;padding-top:12px;color:var(--muted);font-size:12px}
+.empty{text-align:center;padding:35px 15px;color:var(--muted);border:1px dashed #514080;border-radius:17px}
+.profile{display:flex;align-items:center;gap:15px}
+.profile .avatar{width:65px;height:65px;font-size:28px}
+.status{font-size:12px;color:#73e6bc;margin-top:7px}
+footer{position:fixed;bottom:0;left:0;right:0;z-index:6;display:flex;justify-content:center;gap:0;background:#0b0b1af5;border-top:1px solid #35275b;padding:12px 5px calc(12px + env(safe-area-inset-bottom));backdrop-filter:blur(15px)}
+footer button{flex:1;max-width:130px;background:none;border:0;color:#aaa0d0;font-size:21px;padding:7px}
+footer button.active{color:#c08aff}
+.modal{display:none;position:fixed;inset:0;z-index:20;background:#000b;align-items:center;justify-content:center;padding:18px}
+.modal.show{display:flex}
+.modal-box{width:100%;max-width:430px;background:#19162f;border:1px solid #6546a0;border-radius:22px;padding:23px}
+.modal-box input{margin:8px 0}
+.modal-box h2{margin-top:0}
+.modal-box .primary{width:100%;margin-top:13px}
+.toast{position:fixed;z-index:30;bottom:100px;left:50%;transform:translateX(-50%);background:#292044;border:1px solid #9d64ff;padding:12px 18px;border-radius:12px;display:none;max-width:90%;text-align:center}
+@media(max-width:650px){.grid{grid-template-columns:repeat(2,1fr)}main{padding-top:17px}.hero{padding:24px 19px}.tile{padding:15px}}
+@media(max-width:370px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">N<span>OVARA</span></div>
+  <div class="header-actions">
+    <button class="smallbtn" onclick="loadFeed()">↻</button>
+    <button class="smallbtn" onclick="openAuth()">◉ Tài khoản</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="home">
+    <div class="eyebrow">NOVARA · HYBRID FUTURE · V0.7</div>
+    <h1>Beyond Social.<br><span class="gradient">Into a Living World.</span></h1>
+    <p>Một không gian nơi con người khám phá thế giới, cùng sáng tạo và biến những ý tưởng thành trải nghiệm chung.</p>
+    <div class="actions">
+      <button class="primary" onclick="document.getElementById('community').scrollIntoView({behavior:'smooth'})">Khám phá World →</button>
+      <button class="secondary" onclick="document.getElementById('community').scrollIntoView({behavior:'smooth'})">Tham gia cộng đồng</button>
+    </div>
+  </section>
+
+  <div class="section-title">YOUR FUTURE SPACE</div>
+  <section class="grid">
+    <div class="tile"><div class="emoji">🌐</div><h3>NOVARA WORLD</h3><p>Khám phá nhịp đập toàn cầu</p></div>
+    <div class="tile"><div class="emoji">✧</div><h3>NOVARA INTELLIGENCE</h3><p>Trợ lý phát triển ý tưởng</p></div>
+    <div class="tile"><div class="emoji">◇</div><h3>NOVARA CREATE</h3><p>Đưa ý tưởng ra thế giới</p></div>
+    <div class="tile"><div class="emoji">⚡</div><h3>NOVARA MISSIONS</h3><p>Cùng cộng đồng tạo tác động</p></div>
+    <div class="tile"><div class="emoji">◈</div><h3>NOVARA IDENTITY</h3><p>Dấu ấn và hành trình của bạn</p></div>
+    <div class="tile"><div class="emoji">⌁</div><h3>NOVARA PULSE</h3><p>Những điều đang chuyển động</p></div>
+  </section>
+
+  <section id="community">
+    <div class="section-title">COMMUNITY MOMENTS</div>
+    <div class="composer">
+      <div class="composer-top">
+        <div class="avatar" id="myAvatar">N</div>
+        <div><strong id="myName">NOVARA Community</strong><div class="muted" id="loginHint">Chia sẻ với thế giới</div></div>
+      </div>
+      <textarea id="postText" placeholder="Bạn đang nghĩ gì? Hãy bắt đầu một khoảnh khắc..."></textarea>
+      <div class="composer-actions">
+        <label class="secondary" style="cursor:pointer">▧ Ảnh / Video
+          <input id="mediaFile" type="file" accept="image/*,video/*" style="display:none">
+        </label>
+        <span class="muted" id="fileName">Chưa chọn tệp</span>
+        <button class="primary" id="publishBtn" onclick="publish()">Đăng bài →</button>
+      </div>
+    </div>
+
+    <div class="feed-filter">
+      <button onclick="loadFeed()">🌐 Mới nhất</button>
+      <button onclick="showMyPosts()">◉ Bài của tôi</button>
+    </div>
+    <div id="feed"><div class="empty">Đang kết nối NOVARA...</div></div>
+  </section>
+
+  <div class="section-title">NOVARA IDENTITY</div>
+  <section class="profile">
+    <div class="avatar" id="profileAvatar">N</div>
+    <div>
+      <strong id="profileName">Khách NOVARA</strong>
+      <div class="muted" id="profileEmail">Đăng nhập để xây dựng danh tính của bạn</div>
+      <div class="status" id="connectionStatus">Đang khởi tạo...</div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <button class="active" onclick="window.scrollTo({top:0,behavior:'smooth'})">⌂</button>
+  <button onclick="document.getElementById('community').scrollIntoView({behavior:'smooth'})">◎</button>
+  <button onclick="document.getElementById('postText').focus()">＋</button>
+  <button onclick="loadFeed()">✧</button>
+  <button onclick="openAuth()">◇</button>
+</footer>
+
+<div class="modal" id="authModal">
+  <div class="modal-box">
+    <h2>Welcome to NOVARA</h2>
+    <p class="muted">Đăng nhập hoặc tạo tài khoản mới</p>
+    <input id="authEmail" type="email" placeholder="Email">
+    <input id="authPassword" type="password" placeholder="Mật khẩu (tối thiểu 6 ký tự)">
+    <button class="primary" onclick="signIn()">Đăng nhập</button>
+    <button class="secondary" style="width:100%;margin-top:9px" onclick="signUp()">Tạo tài khoản</button>
+    <button class="secondary" style="width:100%;margin-top:9px" onclick="signOut()">Đăng xuất</button>
+    <button class="secondary" style="width:100%;margin-top:9px" onclick="closeAuth()">Đóng</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ==========================================
+// NOVARA V0.7 — SUPABASE CONFIGURATION
+// Thay 2 giá trị bên dưới bằng thông tin dự án
+// ==========================================
+
+const SUPABASE_URL = "https://yrejgxiwlgoajngxrgts.supabase.co/rest/v1/";
+const SUPABASE_ANON_KEY = "sb_publishable_DKBzR7Lx2ztVRA2T352WJg_j5xW6e61";
+const STORAGE_BUCKET = "novara-media";
+
+let db = null;
+let currentUser = null;
+let allPosts = [];
+let ownOnly = false;
+
+function toast(message){
+  const el=document.getElementById("toast");
+  el.textContent=message;
+  el.style.display="block";
+  clearTimeout(window.toastTimer);
+  window.toastTimer=setTimeout(()=>el.style.display="none",3500);
+}
+
+function escapeHTML(value){
+  return String(value??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[c]);
+}
+
+function init(){
+  if(!window.supabase){
+    document.getElementById("connectionStatus").textContent="Không tải được thư viện Supabase.";
+    return;
+  }
+  if(SUPABASE_URL.includes("YOUR_")||SUPABASE_ANON_KEY.includes("YOUR_")){
+    document.getElementById("connectionStatus").textContent="Chưa cấu hình Supabase URL và key.";
+    document.getElementById("feed").innerHTML='<div class="empty">Vui lòng nhập Supabase URL và Publishable/anon key trong mã nguồn.</div>';
+    return;
+  }
+  db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+  db.auth.getSession().then(async({data,error})=>{
+    if(error) console.error(error);
+    currentUser=data.session?.user??null;
+    await updateIdentity();
+    await loadFeed();
+    document.getElementById("connectionStatus").textContent="Đã kết nối Supabase";
+  });
+  db.auth.onAuthStateChange((_event,session)=>{
+    currentUser=session?.user??null;
+    setTimeout(async()=>{
+      await updateIdentity();
+      await loadFeed();
+    },0);
+  });
+  db.channel("novara-posts-live")
+    .on("postgres_changes",{event:"*",schema:"public",table:"posts"},()=>loadFeed())
+    .subscribe();
+}
+
+async function updateIdentity(){
+  const name=currentUser?.email?.split("@")[0]||"Khách NOVARA";
+  let displayName=name;
+  if(currentUser){
+    const {data}=await db.from("profiles")
+      .select("username,display_name")
+      .eq("id",currentUser.id).maybeSingle();
+    displayName=data?.display_name||data?.username||name;
+  }
+  document.getElementById("myName").textContent=displayName;
+  document.getElementById("profileName").textContent=displayName;
+  document.getElementById("profileEmail").textContent=currentUser?.email||"Đăng nhập để xây dựng danh tính";
+  document.getElementById("myAvatar").textContent=displayName.charAt(0).toUpperCase();
+  document.getElementById("profileAvatar").textContent=displayName.charAt(0).toUpperCase();
+  document.getElementById("loginHint").textContent=currentUser?"Đang chia sẻ với cộng đồng":"Hãy đăng nhập để đăng bài";
+}
+
+async function loadFeed(){
+  if(!db)return;
+  const feed=document.getElementById("feed");
+  feed.innerHTML='<div class="empty">Đang tải bảng tin...</div>';
+  let query=db.from("posts").select("*").order("created_at",{ascending:false}).limit(50);
+  if(ownOnly&&currentUser)query=query.eq("user_id",currentUser.id);
+  const {data,error}=await query;
+  if(error){
+    feed.innerHTML='<div class="empty">Không tải được bảng tin: '+escapeHTML(error.message)+'</div>';
+    return;
+  }
+  allPosts=data||[];
+  renderFeed();
+}
+
+function showMyPosts(){
+  if(!currentUser){toast("Vui lòng đăng nhập trước.");openAuth();return;}
+  ownOnly=true;
+  loadFeed();
+}
+
+function renderFeed(){
+  const feed=document.getElementById("feed");
+  if(!allPosts.length){
+    feed.innerHTML='<div class="empty">Chưa có bài viết nào. Hãy là người đầu tiên chia sẻ khoảnh khắc! ✨</div>';
+    return;
+  }
+  feed.innerHTML=allPosts.map(p=>{
+    const author=escapeHTML(p.username||p.display_name||"NOVARA Member");
+    const date=p.created_at?new Date(p.created_at).toLocaleString("vi-VN"):"";
+    const media=p.media_url?(
+      String(p.media_type||"").startsWith("video")?
+      `<video class="post-media" controls playsinline src="${escapeHTML(p.media_url)}"></video>`:
+      `<img class="post-media" loading="lazy" src="${escapeHTML(p.media_url)}" alt="NOVARA media">`
+    ):"";
+    return `<article class="post">
+      <div class="post-head">
+        <div class="author">
+          <div class="avatar">${author.charAt(0).toUpperCase()}</div>
+          <div><div class="author-name">${author}</div><div class="post-time">${escapeHTML(date)}</div></div>
+        </div>
+      </div>
+      <div class="post-content">${escapeHTML(p.content||"")}</div>
+      ${media}
+      <div class="post-footer">✧ NOVARA COMMUNITY</div>
+    </article>`;
+  }).join("");
+}
+
+async function publish(){
+  if(!db){toast("Chưa kết nối Supabase.");return;}
+  if(!currentUser){toast("Hãy đăng nhập trước khi đăng bài.");openAuth();return;}
+  const content=document.getElementById("postText").value.trim();
+  const file=document.getElementById("mediaFile").files[0];
+  if(!content&&!file){toast("Hãy nhập nội dung hoặc chọn ảnh/video.");return;}
+  const btn=document.getElementById("publishBtn");
+  btn.disabled=true;
+  btn.textContent="Đang đăng...";
+  try{
+    let media_url=null,media_type=null;
+    if(file){
+      const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+      const path=currentUser.id+"/"+Date.now()+"_"+safeName;
+      const {error:uploadError}=await db.storage.from(STORAGE_BUCKET).upload(path,file,{upsert:false});
+      if(uploadError)throw new Error("Lỗi tải tệp: "+uploadError.message);
+      const {data:urlData}=db.storage.from(STORAGE_BUCKET).getPublicUrl(path);
+      media_url=urlData.publicUrl;
+      media_type=file.type;
+    }
+    const {error}=await db.from("posts").insert({
+      user_id:currentUser.id,
+      content:content,
+      media_url:media_url,
+      media_type:media_type
+    });
+    if(error)throw error;
+    document.getElementById("postText").value="";
+    document.getElementById("mediaFile").value="";
+    document.getElementById("fileName").textContent="Chưa chọn tệp";
+    ownOnly=false;
+    toast("Đăng bài thành công! ✨");
+    await loadFeed();
+  }catch(e){
+    toast(e.message||"Không thể đăng bài.");
+    console.error(e);
+  }finally{
+    btn.disabled=false;
+    btn.textContent="Đăng bài →";
+  }
+}
+
+function openAuth(){document.getElementById("authModal").classList.add("show")}
+function closeAuth(){document.getElementById("authModal").classList.remove("show")}
+
+async function signIn(){
+  if(!db)return;
+  const email=document.getElementById("authEmail").value.trim();
+  const password=document.getElementById("authPassword").value;
+  if(!email||!password){toast("Nhập email và mật khẩu.");return;}
+  const {error}=await db.auth.signInWithPassword({email,password});
+  if(error){toast(error.message);return;}
+  closeAuth();toast("Đăng nhập thành công!");
+}
+
+async function signUp(){
+  if(!db)return;
+  const email=document.getElementById("authEmail").value.trim();
+  const password=document.getElementById("authPassword").value;
+  if(!email||password.length<6){toast("Nhập email và mật khẩu ít nhất 6 ký tự.");return;}
+  const {data,error}=await db.auth.signUp({email,password});
+  if(error){toast(error.message);return;}
+  if(data.user&&!data.session){
+    toast("Đã tạo tài khoản. Hãy xác nhận email rồi đăng nhập.");
+  }else{
+    toast("Tạo tài khoản thành công!");
+  }
+}
+
+async function signOut(){
+  if(!db||!currentUser){toast("Bạn chưa đăng nhập.");return;}
+  const {error}=await db.auth.signOut();
+  if(error){toast(error.message);return;}
+  closeAuth();toast("Đã đăng xuất.");
+}
+
+document.getElementById("mediaFile").addEventListener("change",e=>{
+  document.getElementById("fileName").textContent=e.target.files[0]?.name||"Chưa chọn tệp";
+});
+
+init();
+</script>
+</body>
+</html>
+
