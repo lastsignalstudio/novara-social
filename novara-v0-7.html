@@ -232,20 +232,52 @@ async function updateIdentity(){
   document.getElementById("loginHint").textContent=currentUser?"Đang chia sẻ với cộng đồng":"Hãy đăng nhập để đăng bài";
 }
 
+
 async function loadFeed(){
-  if(!db)return;
-  const feed=document.getElementById("feed");
-  feed.innerHTML='<div class="empty">Đang tải bảng tin...</div>';
-  let query=db.from("posts").select("*").order("created_at",{ascending:false}).limit(50);
-  if(ownOnly&&currentUser)query=query.eq("user_id",currentUser.id);
-  const {data,error}=await query;
-  if(error){
-    feed.innerHTML='<div class="empty">Không tải được bảng tin: '+escapeHTML(error.message)+'</div>';
+  const feed = document.getElementById("feed");
+
+  if(!db){
+    feed.innerHTML =
+      '<div class="empty">Chưa kết nối Supabase.</div>';
     return;
   }
-  allPosts=data||[];
-  renderFeed();
+
+  feed.innerHTML =
+    '<div class="empty">Đang tải bảng tin...</div>';
+
+  try {
+    let query = db
+      .from("posts")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if(ownOnly && currentUser){
+      query = query.eq("user_id", currentUser.id);
+    }
+
+    const { data, error } = await query;
+
+    if(error){
+      console.error("NOVARA FEED ERROR:", error);
+      feed.innerHTML =
+        '<div class="empty">Lỗi tải bảng tin: ' +
+        escapeHTML(error.message) +
+        '</div>';
+      return;
+    }
+
+    allPosts = data || [];
+    renderFeed();
+
+  } catch(error) {
+    console.error("NOVARA SYSTEM ERROR:", error);
+    feed.innerHTML =
+      '<div class="empty">Lỗi hệ thống: ' +
+      escapeHTML(error.message) +
+      '</div>';
+  }
 }
+
 
 function showMyPosts(){
   if(!currentUser){toast("Vui lòng đăng nhập trước.");openAuth();return;}
