@@ -48,7 +48,7 @@ textarea{min-height:84px;resize:vertical}textarea:focus,input:focus{border-color
 <section class="intro"><div class="eyebrow">THE NEW ERA OF CONNECTION · V0.8</div><h1>Một thế giới. Nhiều kết nối.</h1><p>Chia sẻ khoảnh khắc, khám phá những góc nhìn mới.</p></section>
 <section class="composer" id="create"><div class="composer-head"><div class="avatar" id="myAvatar">N</div><div><div class="identity-name" id="myName">Khách NOVARA</div><div class="subtle" id="loginHint">Một khoảnh khắc của bạn</div></div></div>
 <textarea id="postText" placeholder="Bạn đang nghĩ gì?"></textarea><div class="composer-tools"><label class="file-label">＋ Ảnh / Video<input id="mediaFile" type="file" accept="image/*,video/*" hidden></label><span class="file-name" id="fileName">Chưa chọn tệp</span><button class="primary" id="publishBtn" onclick="publish()">Đăng bài</button></div></section>
-<div class="feed-head"><div class="feed-title">BẢNG TIN</div><div class="filters"><button class="filter-btn active" id="allFilter" onclick="showAllPosts()">Mới nhất</button><button class="filter-btn" id="mineFilter" onclick="showMyPosts()">Bài của tôi</button></div></div>
+<div class="feed-head"><div class="feed-title">BẢNG TIN</div><div class="filters"><button class="filter-btn active" id="allFilter" onclick="showAllPosts()">Mới nhất</button><button class="filter-btn" id="mineFilter" onclick="showMyPosts()">Bài của tôi</button><button class="filter-btn" id="savedFilter" onclick="showSavedPosts()">Đã lưu</button></div></div>
 <section id="feed"><div class="empty">Đang kết nối NOVARA...</div></section>
 <section class="profile-card" id="profile"><div class="avatar" id="profileAvatar">N</div><div class="profile-meta"><div class="identity-name" id="profileName">Khách NOVARA</div><div class="subtle" id="profileEmail">Đăng nhập để xây dựng danh tính</div><div class="status" id="connectionStatus">Đang khởi tạo...</div></div></section>
 </main>
@@ -58,7 +58,7 @@ textarea{min-height:84px;resize:vertical}textarea:focus,input:focus{border-color
 const SUPABASE_URL="https://yrejgxiwlgoajngxrgts.supabase.co";
 const SUPABASE_ANON_KEY="sb_publishable_DKBzR7Lx2ztVRA2T352WJg_j5xW6e61";
 const STORAGE_BUCKET="novara-media";
-let db=null,currentUser=null,allPosts=[],ownOnly=false,likedIds=new Set(),savedIds=new Set(),likesByPost={},commentsByPost={};
+let db=null,currentUser=null,allPosts=[],ownOnly=false,savedOnly=false,likedIds=new Set(),savedIds=new Set(),likesByPost={},commentsByPost={},profileById={};
 const $=id=>document.getElementById(id);
 function toast(m){const e=$("toast");e.textContent=m;e.style.display="block";clearTimeout(window.nToast);window.nToast=setTimeout(()=>e.style.display="none",3000)}
 function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
@@ -67,7 +67,6 @@ function goHome(){setNav("home");window.scrollTo({top:0,behavior:"smooth"})}
 function goCreate(){setNav("create");$("create").scrollIntoView({behavior:"smooth",block:"center"});setTimeout(()=>$("postText").focus(),250)}
 function goProfile(){setNav("profile");$("profile").scrollIntoView({behavior:"smooth",block:"center"});if(!currentUser)openAuth()}
 function comingSoon(n){toast(n+" sẽ được bổ sung ở bản cập nhật tiếp theo.")}
-function setFilter(){$("allFilter").classList.toggle("active",!ownOnly);$("mineFilter").classList.toggle("active",ownOnly)}
 function init(){
  if(!window.supabase){$("connectionStatus").textContent="Không tải được thư viện Supabase.";return}
  db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
@@ -77,30 +76,41 @@ function init(){
 }
 async function updateIdentity(){
  const fallback=currentUser?.email?.split("@")[0]||"Khách NOVARA";let name=fallback;
- if(currentUser){const {data}=await db.from("profiles").select("username,display_name").eq("id",currentUser.id).maybeSingle();name=data?.display_name||data?.username||fallback}
+ if(currentUser){const {data}=await db.from("profiles").select("username,display_name,avatar_url,bio").eq("id",currentUser.id).maybeSingle();if(data){profileById[currentUser.id]=data;name=data.display_name||data.username||fallback}}
  $("myName").textContent=name;$("profileName").textContent=name;$("myAvatar").textContent=name.charAt(0).toUpperCase();$("profileAvatar").textContent=name.charAt(0).toUpperCase();$("profileEmail").textContent=currentUser?.email||"Đăng nhập để xây dựng danh tính";$("loginHint").textContent=currentUser?"Đang chia sẻ với cộng đồng":"Đăng nhập để đăng bài";
 }
 async function loadFeed(){
  if(!db)return;const feed=$("feed");feed.innerHTML='<div class="empty">Đang tải bảng tin...</div>';
  try{
-  let q=db.from("posts").select("*").order("created_at",{ascending:false});if(ownOnly&&currentUser)q=q.eq("user_id",currentUser.id);
-  const {data,error}=await q;if(error)throw error;allPosts=data||[];likedIds=new Set();savedIds=new Set();likesByPost={};commentsByPost={};
-  if(allPosts.length){const ids=allPosts.map(p=>p.id);const [lr,cr,sr]=await Promise.all([db.from("post_likes").select("post_id,user_id").in("post_id",ids),db.from("post_comments").select("post_id").in("post_id",ids),currentUser?db.from("post_bookmarks").select("post_id").eq("user_id",currentUser.id).in("post_id",ids):Promise.resolve({data:[],error:null})]);
-   if(lr.error)throw lr.error;if(cr.error)throw cr.error;if(sr.error)throw sr.error;
+  let q=db.from("posts").select("*").order("created_at",{ascending:false}).limit(60);
+  if(ownOnly&&currentUser)q=q.eq("user_id",currentUser.id);
+  const {data,error}=await q;if(error)throw error;allPosts=data||[];
+  likedIds=new Set();savedIds=new Set();likesByPost={};commentsByPost={};profileById={};
+  if(allPosts.length){
+   const ids=allPosts.map(p=>p.id),userIds=[...new Set(allPosts.map(p=>p.user_id).filter(Boolean))];
+   const jobs=[db.from("post_likes").select("post_id,user_id").in("post_id",ids),db.from("post_comments").select("post_id").in("post_id",ids),db.from("profiles").select("id,username,display_name,avatar_url,bio").in("id",userIds),currentUser?db.from("post_bookmarks").select("post_id").eq("user_id",currentUser.id).in("post_id",ids):Promise.resolve({data:[],error:null})];
+   const [lr,cr,pr,sr]=await Promise.all(jobs);
+   if(lr.error)throw lr.error;if(cr.error)throw cr.error;
+   if(pr.error)console.warn("Profiles could not be loaded:",pr.error.message);
+   (pr.data||[]).forEach(x=>profileById[x.id]=x);
    (lr.data||[]).forEach(x=>{likesByPost[x.post_id]=(likesByPost[x.post_id]||0)+1;if(currentUser&&x.user_id===currentUser.id)likedIds.add(String(x.post_id))});
-   (cr.data||[]).forEach(x=>commentsByPost[x.post_id]=(commentsByPost[x.post_id]||0)+1);(sr.data||[]).forEach(x=>savedIds.add(String(x.post_id)));
-  }renderFeed();
+   (cr.data||[]).forEach(x=>commentsByPost[x.post_id]=(commentsByPost[x.post_id]||0)+1);
+   (sr.data||[]).forEach(x=>savedIds.add(String(x.post_id)));
+  }
+  renderFeed();
  }catch(e){console.error(e);feed.innerHTML='<div class="empty">Không tải được bảng tin: '+esc(e.message)+'</div>'}
 }
-function showAllPosts(){ownOnly=false;setFilter();loadFeed()}
-function showMyPosts(){if(!currentUser){openAuth();toast("Đăng nhập để xem bài viết của bạn.");return}ownOnly=true;setFilter();loadFeed()}
+function showAllPosts(){ownOnly=false;savedOnly=false;setFilter();loadFeed()}
+function showMyPosts(){if(!currentUser){openAuth();toast("Đăng nhập để xem bài viết của bạn.");return}ownOnly=true;savedOnly=false;setFilter();loadFeed()}
+function showSavedPosts(){if(!currentUser){openAuth();toast("Đăng nhập để xem bài đã lưu.");return}ownOnly=false;savedOnly=true;setFilter();loadFeed()}
+function setFilter(){$("allFilter").classList.toggle("active",!ownOnly&&!savedOnly);$("mineFilter").classList.toggle("active",ownOnly);$("savedFilter").classList.toggle("active",savedOnly)}
 function renderFeed(){
- const feed=$("feed");if(!allPosts.length){feed.innerHTML='<div class="empty">Chưa có bài viết nào. Hãy chia sẻ khoảnh khắc đầu tiên.</div>';return}
- feed.innerHTML=allPosts.map(p=>{
-  const id=String(p.id),author=esc(p.username||p.display_name||"NOVARA Member"),date=p.created_at?new Date(p.created_at).toLocaleString("vi-VN"):"";
+ const feed=$("feed");const visible=savedOnly?allPosts.filter(p=>savedIds.has(String(p.id))):allPosts;if(!visible.length){feed.innerHTML=savedOnly?'<div class="empty">Bạn chưa lưu bài viết nào.</div>':'<div class="empty">Chưa có bài viết nào. Hãy chia sẻ khoảnh khắc đầu tiên.</div>';return}
+ feed.innerHTML=visible.map(p=>{
+  const id=String(p.id),pr=profileById[p.user_id]||{},author=esc(pr.display_name||pr.username||"NOVARA Member"),date=p.created_at?new Date(p.created_at).toLocaleString("vi-VN"):"";
   let media="";if(p.media_url)media=String(p.media_type||"").startsWith("video")?'<video class="post-media" controls playsinline src="'+esc(p.media_url)+'"></video>':'<img class="post-media" loading="lazy" src="'+esc(p.media_url)+'" alt="NOVARA media">';
   const liked=likedIds.has(id),saved=savedIds.has(id);
-  return '<article class="post"><div class="post-head"><div class="avatar">'+esc(author.charAt(0).toUpperCase())+'</div><div><div class="author-name">'+author+'</div><div class="post-time">'+esc(date)+'</div></div></div>'+(p.content?'<div class="post-content">'+esc(p.content)+'</div>':"")+media+
+  return '<article class="post"><div class="post-head"><div class="avatar">'+(pr.avatar_url?'<img src="'+esc(pr.avatar_url)+'" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%">':esc(author.charAt(0).toUpperCase()))+'</div><div><div class="author-name">'+author+'</div><div class="post-time">'+esc(date)+'</div></div></div>'+(p.content?'<div class="post-content">'+esc(p.content)+'</div>':"")+media+
    '<div class="post-actions"><button class="action-btn '+(liked?"active":"")+'" data-action="like" data-id="'+esc(id)+'">'+(liked?"♥":"♡")+' '+(likesByPost[p.id]||0)+' Thích</button><button class="action-btn" data-action="comments" data-id="'+esc(id)+'">◯ '+(commentsByPost[p.id]||0)+' Bình luận</button><span class="spacer"></span><button class="action-btn '+(saved?"active":"")+'" data-action="save" data-id="'+esc(id)+'">'+(saved?"▣ Đã lưu":"▢ Lưu")+'</button></div>'+
    '<div class="comments" id="comments-'+esc(id)+'"><div class="comment-list" id="comment-list-'+esc(id)+'"></div><form class="comment-form" data-comment-form data-id="'+esc(id)+'"><input name="content" maxlength="1000" placeholder="Viết bình luận..." required><button type="submit">Gửi</button></form></div></article>';
  }).join("");
@@ -116,16 +126,20 @@ async function toggleSave(id){
  if(r.error){toast("Lỗi lưu bài: "+r.error.message);return}toast(exists?"Đã bỏ lưu.":"Đã lưu bài viết.");await loadFeed();
 }
 async function loadComments(id){
- const box=$("comments-"+id),list=$("comment-list-"+id);if(!box||!list)return;box.classList.toggle("open");if(!box.classList.contains("open"))return;
- list.innerHTML='<div class="subtle">Đang tải bình luận...</div>';const {data,error}=await db.from("post_comments").select("id,content,created_at").eq("post_id",id).order("created_at",{ascending:true});
- if(error){list.innerHTML='<div class="subtle">Lỗi: '+esc(error.message)+'</div>';return}
- list.innerHTML=data?.length?data.map(c=>'<div class="comment"><strong>NOVARA Member</strong>'+esc(c.content)+'</div>').join(""):'<div class="subtle">Chưa có bình luận.</div>';
+ const box=$("comments-"+id),list=$("comment-list-"+id);if(!box||!list)return;
+ const opening=!box.classList.contains("open");box.classList.toggle("open");if(!opening)return;
+ list.innerHTML='<div class="subtle">Đang tải bình luận...</div>';
+ const {data,error}=await db.from("post_comments").select("id,user_id,content,created_at").eq("post_id",id).order("created_at",{ascending:true});
+ if(error){list.innerHTML='<div class="subtle">Không tải được bình luận: '+esc(error.message)+'</div>';return}
+ const ids=[...new Set((data||[]).map(c=>c.user_id).filter(Boolean))];let names={};
+ if(ids.length){const r=await db.from("profiles").select("id,username,display_name").in("id",ids);if(!r.error)(r.data||[]).forEach(p=>names[p.id]=p.display_name||p.username||"NOVARA Member")}
+ list.innerHTML=data?.length?data.map(c=>'<div class="comment"><strong>'+esc(names[c.user_id]||"NOVARA Member")+'</strong>'+esc(c.content)+'</div>').join(""):'<div class="subtle">Chưa có bình luận.</div>';
 }
 async function publish(){
  if(!currentUser){openAuth();toast("Đăng nhập trước khi đăng bài.");return}
  const content=$("postText").value.trim(),file=$("mediaFile").files[0];if(!content&&!file){toast("Hãy nhập nội dung hoặc chọn ảnh/video.");return}
  const btn=$("publishBtn");btn.disabled=true;btn.textContent="Đang đăng...";
- try{let media_url=null,media_type=null;if(file){const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"_"),path=currentUser.id+"/"+Date.now()+"_"+safe;const {error}=await db.storage.from(STORAGE_BUCKET).upload(path,file,{upsert:false});if(error)throw error;const {data}=db.storage.from(STORAGE_BUCKET).getPublicUrl(path);media_url=data.publicUrl;media_type=file.type}
+ try{let media_url=null,media_type=null;if(file){if(!file.type.startsWith("image/")&&!file.type.startsWith("video/"))throw new Error("Chỉ hỗ trợ ảnh hoặc video.");if(file.size>(file.type.startsWith("video/")?50:15)*1024*1024)throw new Error(file.type.startsWith("video/")?"Video tối đa 50 MB.":"Ảnh tối đa 15 MB.");const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"_"),path=currentUser.id+"/"+Date.now()+"_"+safe;const {error}=await db.storage.from(STORAGE_BUCKET).upload(path,file,{upsert:false,contentType:file.type});if(error)throw error;const {data}=db.storage.from(STORAGE_BUCKET).getPublicUrl(path);media_url=data.publicUrl;media_type=file.type}
   const {error}=await db.from("posts").insert({user_id:currentUser.id,content,media_url,media_type});if(error)throw error;
   $("postText").value="";$("mediaFile").value="";$("fileName").textContent="Chưa chọn tệp";ownOnly=false;setFilter();toast("Đăng bài thành công.");await loadFeed();window.scrollTo({top:0,behavior:"smooth"});
  }catch(e){console.error(e);toast("Không thể đăng bài: "+e.message)}finally{btn.disabled=false;btn.textContent="Đăng bài"}
@@ -135,9 +149,11 @@ $("feed").addEventListener("submit",async e=>{
  const f=e.target.closest("[data-comment-form]");if(!f)return;e.preventDefault();if(!currentUser){openAuth();toast("Đăng nhập để bình luận.");return}
  const input=f.elements.content,content=input.value.trim();if(!content)return;const btn=f.querySelector("button");btn.disabled=true;
  const {error}=await db.from("post_comments").insert({post_id:f.dataset.id,user_id:currentUser.id,content});btn.disabled=false;
- if(error){toast("Lỗi bình luận: "+error.message);return}input.value="";toast("Đã gửi bình luận.");await loadComments(f.dataset.id);await loadFeed();$("comments-"+f.dataset.id)?.classList.add("open");
+ if(error){toast("Lỗi bình luận: "+error.message);return}
+ input.value="";toast("Đã gửi bình luận.");
+ const id=f.dataset.id;await loadFeed();const box=$("comments-"+id);if(box){box.classList.add("open");const list=$("comment-list-"+id);const {data}=await db.from("post_comments").select("id,user_id,content,created_at").eq("post_id",id).order("created_at",{ascending:true});let names={};const ids=[...new Set((data||[]).map(c=>c.user_id).filter(Boolean))];if(ids.length){const r=await db.from("profiles").select("id,username,display_name").in("id",ids);if(!r.error)(r.data||[]).forEach(p=>names[p.id]=p.display_name||p.username||"NOVARA Member")}if(list)list.innerHTML=data?.length?data.map(c=>'<div class="comment"><strong>'+esc(names[c.user_id]||"NOVARA Member")+'</strong>'+esc(c.content)+'</div>').join(""):'<div class="subtle">Chưa có bình luận.</div>'}
 });
-function openAuth(){$("authModal").classList.add("show")}function closeAuth(){$("authModal").classList.remove("show")}
+function openAuth(){$("authModal").classList.add("show");if(currentUser){$("authEmail").value=currentUser.email||"";$("authPassword").value=""}}function closeAuth(){$("authModal").classList.remove("show")}
 async function signIn(){const email=$("authEmail").value.trim(),password=$("authPassword").value;if(!email||!password){toast("Nhập email và mật khẩu.");return}const {error}=await db.auth.signInWithPassword({email,password});if(error){toast(error.message);return}closeAuth();toast("Đăng nhập thành công.")}
 async function signUp(){const email=$("authEmail").value.trim(),password=$("authPassword").value;if(!email||password.length<6){toast("Nhập email và mật khẩu ít nhất 6 ký tự.");return}const {data,error}=await db.auth.signUp({email,password});if(error){toast(error.message);return}toast(data.user&&!data.session?"Đã tạo tài khoản. Hãy xác nhận email.":"Tạo tài khoản thành công.")}
 async function signOut(){const {error}=await db.auth.signOut();if(error){toast(error.message);return}closeAuth();toast("Đã đăng xuất.")}
